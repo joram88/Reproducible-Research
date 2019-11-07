@@ -16,18 +16,20 @@ unzip("repdata_data_activity.zip")
 
 act <- read.csv("activity.csv")
 
-#2) Histogram of steps
+#2) Histogram of steps by day
 
-hist(act$steps)
+totsteps <- act %>% 
+        group_by(date) %>% 
+        summarise(steps = sum(steps))
+
+hist(totsteps$steps)
 
 #3) Mean and median number of steps taken each day
 
-mean <- mean(act$steps, na.rm = TRUE)
-median <- median(act$steps, na.rm = TRUE)
+mean <- mean(totsteps$steps, na.rm = TRUE)
+median <- median(totsteps$steps, na.rm = TRUE)
 
 #4) Time series plot of the average number of steps taken
-
-clact <- na.omit(act)
 
 by_int <- clact %>% group_by(interval)
 intervals <- by_int %>% summarize(steps = mean(steps))
