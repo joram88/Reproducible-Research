@@ -22,14 +22,17 @@ totsteps <- act %>%
         group_by(date) %>% 
         summarise(steps = sum(steps))
 
-hist(totsteps$steps)
+hist(totsteps$steps, breaks=20)
 
 #3) Mean and median number of steps taken each day
 
 mean <- mean(totsteps$steps, na.rm = TRUE)
 median <- median(totsteps$steps, na.rm = TRUE)
 
+
 #4) Time series plot of the average number of steps taken
+
+clact <- na.omit(act)
 
 by_int <- clact %>% group_by(interval)
 intervals <- by_int %>% summarize(steps = mean(steps))
@@ -49,7 +52,7 @@ maxsteps <- intervals %>%
 #6) Code to describe and show a strategy for imputing missing data
 
 by_date <- act %>% group_by(date)
-        daily <- by_date %>% summarise(steps = mean(steps))
+        daily <- by_date %>% summarise(steps = sum(steps))
 
 # Here we can see the missing values by day. To fix this
 # I am going to use the approx function in R to interpolate
@@ -63,8 +66,12 @@ daily$steps <- na.fill(daily$steps, "extend")
 #7) Histogram of total number of steps taken each day after missing
 # values are imputed
 
-hist(daily$steps)
+hist(daily$steps, breaks=20)
 
+mean2 <- mean(daily$steps, na.rm = TRUE)
+median2 <- median(daily$steps, na.rm = TRUE)
+
+#We do see an impact, with our mean and median decreasing
 
 #8) Panel plot comparing average number of steps taken per 5-minute
 # interval across weekdays and weekends
