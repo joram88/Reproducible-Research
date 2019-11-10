@@ -54,6 +54,13 @@ maxsteps <- intervals %>%
 by_date <- act %>% group_by(date)
         daily <- by_date %>% summarise(steps = sum(steps))
 
+barplot(daily$steps,  
+                col = "darkred",
+                xlab = "Day",
+                ylab = "Steps",
+                main = "Total Daily Steps")
+
+
 # Here we can see the missing values by day. To fix this
 # I am going to use the approx function in R to interpolate
 # then replace the first and last obs via zoo        
