@@ -1,5 +1,7 @@
 ## README
 
+To the grader: The code is above in the .R and .Rmd files. I am replicating everything in this README as well.
+
     Load the data (i.e. read.csv()\color{red}{\verb|read.csv()|}read.csv())
     Process/transform the data (if necessary) into a format suitable for your analysis
 
@@ -47,9 +49,19 @@ Median = 10765
 maxsteps <- intervals %>% 
         filter(steps == max(steps))
 
-We learn that interval 835 h ad 206.2 steps, which was the maximum. We can see this in the graph below.
+We learn that interval 835 h ad 206.2 steps on average, which was the maximum. We can see this in the graph below.
+
+Average number of steps taken by interval:
 
 ![graph2](https://raw.githubusercontent.com/jrpineda/Reproducible-Research/master/graph2.png)
+
+To account for missing values I used na.approx from the zoo package. As for the first and last observations
+I simply took the nearest value and replaced the missing value. See below.
+
+daily$steps <- na.approx(daily$steps, na.rm = FALSE)
+na.locf(daily$steps, na.rm = TRUE, fromLast = TRUE)
+daily$steps <- na.fill(daily$steps, "extend")
+
 
     Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
@@ -65,4 +77,7 @@ We see that mean and median dropped once we removed the missing values.
     Make a panel plot containing a time series plot (i.e. type = "l"\color{red}{\verb|type = "l"|}type="l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
 ![graph4](https://raw.githubusercontent.com/jrpineda/Reproducible-Research/master/graph4.png)
+
+
+All code is in PA1_template.R.
 
